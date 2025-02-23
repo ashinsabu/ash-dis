@@ -21,13 +21,8 @@ build: build-server build-cli
 
 # Run the server
 run-server: build-server
-	@echo "🚀 Starting Ashdis Server..."
-	@$(SERVER_BIN) --port=6379
-
-# Run the CLI
-run-cli: build-cli
-	@echo "🚀 Starting Ashdis CLI..."
-	@$(CLI_BIN)
+	@echo "🚀 Starting ashdis Server..."
+	@$(SERVER_BIN) --port=6370
 
 # Clean up compiled binaries
 clean:
@@ -43,6 +38,5 @@ help:
 	@echo "  build-cli       Build the Ashdis CLI binary"
 	@echo "  build           Build both server and CLI"
 	@echo "  run-server      Build and run the server"
-	@echo "  run-cli         Build and run the CLI"
 	@echo "  clean           Remove binaries"
 	@echo "  help            Show this help message"

@@ -9,11 +9,11 @@ import (
 )
 
 func main() {
-	listenPort := flag.Int("port", 6379, "Port to run the Ashdis server on")
+	listenPort := flag.Int("port", 6370, "Port to run the Ashdis server on")
 	listenAddr := flag.String("addr", "localhost", "Address to run the Ashdis server on")
 	flag.Parse()
 
-	fmt.Printf("Starting Ashdis server on %s:%d\n", *listenAddr, *listenPort)
+	fmt.Printf("starting ashdis server on %s:%d\n", *listenAddr, *listenPort)
 	ashidisServer := server.NewAshdisServer(server.AshdisServerOpts{
 		ListenPort: *listenPort,
 		ListenAddr: *listenAddr,
