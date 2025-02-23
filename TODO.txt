@@ -20,15 +20,18 @@ MVP
 
 * append only file for persistence
     Append only log will be used for persistence
-    every command will be appended to the log
+    every command is logged to AOF before execution.
     every command will be executed in order
-    running instances will be stateless and on startup will read the log and execute all commands in order
-    we will only implement the EVERYSEC appendfsync mode for now.
-        buffers commands and writes to disk every second.
+    running instances will be stateless and on startup, AOF is replayed to restore state.
+    WRITE STRATEGY: we will only implement the EVERYSEC appendfsync mode for now.
+        buffers commands in memory UPTO 1 second before writing to disk.
         good balance between durability & performance.
         can lose up to max 1 second of data.
     aof can be enabled optionally.
-
+    edge Cases & Considerations
+        partial writes: If Redis crashes mid-write, we should ignore corrupt entries on restart.
+        AOF file corruption: checksum or versioning mechanism might be needed later.
+        file size growth: a future improvement could be AOF compaction/rewrite.
 
 * Support following commands
 - SET

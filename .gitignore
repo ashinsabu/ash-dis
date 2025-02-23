@@ -7,3 +7,4 @@ gitops-server
 .DS_Store
 __debug_bin
 node_modules
+bin
