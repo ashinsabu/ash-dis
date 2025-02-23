@@ -1,15 +1,67 @@
 TODO File
 
+-----------------
 MVP
+-----------------
 * handle multiple tcp connections in server
+    This means server url will be split into scheme://host:port
+    i.e. ashdis://localhost:6370
+    this should support username password as well if provided in cli connection uRL
+    i.e. ashdis://username:password@host:port
+
 * have a protocol similar to redis
+    similar to HTTP every MESSAGE will be replied with a response MESSAGE
+
+    every MESSAGE will be a string
+    every MESSAGE starts with a command/response_code string followed by space and then arguments/tokens
+    every MESSAGE ends with a newline character
+
+    maybe call it ADSP - (A)sh(D)is (S)erialization (P)rotocol
+
+* append only file for persistence
+    Append only log will be used for persistence
+    every command will be appended to the log
+    every command will be executed in order
+    running instances will be stateless and on startup will read the log and execute all commands in order
+    we will only implement the EVERYSEC appendfsync mode for now.
+        buffers commands and writes to disk every second.
+        good balance between durability & performance.
+        can lose up to max 1 second of data.
+    aof can be enabled optionally.
+
+
 * Support following commands
 - SET
 - GET
+- DEL
 - KEYS pattern
 - EXISTS key1 key2
 - EXPIRE key seconds (if -1 then removes expiry, )
-- TTL key (get remaining time if timeout, -1 returned if no expiry, NULL returned if key doesn't exist)
+- TTL key (get remaining time if timeout, -1 returned if no expiry)
 
 response format
-RESPONSE_CODE_STRING [RESPONSE_STRING_IF_APPLICABLE (can contain space separated list, single integer, single string, etc.)]
+
+RESPONSE_CODE_STRING
+RESPONSE_TOKENS (each response token will be one of following types
+ - String enclosed in ""
+ - NULL which won't be enclosed in anything
+ - Integer for applicable operations such as TTL, EXISTS etc)]
+
+examples
+OK "responseString"
+OK "1" "x" "ab c \"d\""
+OK 1
+OK NULL
+ERR_CMD_NOT_FOUND
+ERR_KEY_NOT_FOUND
+
+
+-----------------
+POSSIBLE ROADMAP
+-----------------
+
+* Set type support
+* hash type support
+* (advanced) additional protocol support similar to
+* (advanced) stream support
+* (very advanced) transaction support
