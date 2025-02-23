@@ -1,0 +1,15 @@
+TODO File
+
+MVP
+* handle multiple tcp connections in server
+* have a protocol similar to redis
+* Support following commands
+- SET
+- GET
+- KEYS pattern
+- EXISTS key1 key2
+- EXPIRE key seconds (if -1 then removes expiry, )
+- TTL key (get remaining time if timeout, -1 returned if no expiry, NULL returned if key doesn't exist)
+
+response format
+RESPONSE_CODE_STRING [RESPONSE_STRING_IF_APPLICABLE (can contain space separated list, single integer, single string, etc.)]
